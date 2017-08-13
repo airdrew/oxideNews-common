@@ -1,5 +1,5 @@
 [package]
-name = "oxideNews-gtk-common"
+name = "oxideNews-common"
 version = "0.1.0"
 authors = ["Chris Palmer <pennstate5013@gmail.com>"]
 
@@ -7,8 +7,10 @@ authors = ["Chris Palmer <pennstate5013@gmail.com>"]
 sqlite = ["oxideNews-db-sqlite"]
 default = ["sqlite"]
 
-[dependencies]
-oxideNews-db-sqlite = { git = 'https://github.com/red-oxide/oxideNews-db-sqlite', optional = true } 
+[dependencies.oxideNews-db-sqlite]
+git = "https://github.com/red-oxide/oxideNews-db-sqlite"
+version = "0.1"
+optional = true
 
 [lib]
 name = "oxide_news_common"
