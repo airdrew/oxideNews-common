@@ -17,6 +17,9 @@
 //
 
 extern crate oxide_news_db;
+extern crate rss;
+
+pub mod errors;
 
 pub fn add()
 {
