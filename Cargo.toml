@@ -2,6 +2,11 @@
 name = "oxideNews-common"
 version = "0.1.0"
 authors = ["Chris Palmer <pennstate5013@gmail.com>"]
+description = "Library for common functions in oxideNews"
+repository = "https://github.com/red-oxide/oxideNews-common"
+license = "GPL-3.0"
+readme = "README.md"
+include = ["src/*", "Cargo.toml", "LICENSE", "README.md"]
 
 [features]
 sqlite = ["oxideNews-db-sqlite"]
@@ -11,6 +16,10 @@ default = ["sqlite"]
 git = "https://github.com/red-oxide/oxideNews-db-sqlite"
 version = "0.1"
 optional = true
+
+[dependencies.rss]
+version = "0.7"
+features = ["from_url"]
 
 [lib]
 name = "oxide_news_common"
