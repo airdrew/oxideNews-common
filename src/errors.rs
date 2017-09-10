@@ -16,16 +16,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
+use ron::de::Error as DeError;
+use ron::ser::Error as SerError;
 use rss::Error as RssError;
 use std::error::Error as StdError;
 use std::fmt;
+use std::io::Error as IoError;
 
 #[derive(Debug)]
 /// Errors from RSS and the Database
 pub enum Error
 {
-    /// An error occured while retrieving the rss feed from the passed url.
     Rss(RssError),
+    Io(IoError),
+    Ser(SerError),
+    De(DeError),
 }
 
 impl StdError for Error
@@ -34,6 +39,9 @@ impl StdError for Error
     {
         match *self {
             Error::Rss(ref err) => err.description(),
+            Error::Io(ref err) => err.description(),
+            Error::Ser(ref err) => err.description(),
+            Error::De(ref err) => err.description(),
         }
     }
 
@@ -41,6 +49,9 @@ impl StdError for Error
     {
         match *self {
             Error::Rss(ref err) => Some(err),
+            Error::Io(ref err) => Some(err),
+            Error::Ser(ref err) => Some(err),
+            Error::De(ref err) => Some(err),
         }
     }
 }
@@ -53,6 +64,9 @@ impl fmt::Display for Error
     {
         match *self {
             Error::Rss(ref err) => err.fmt(f),
+            Error::Io(ref err) => err.fmt(f),
+            Error::Ser(ref err) => err.fmt(f),
+            Error::De(ref err) => err.fmt(f),
         }
     }
 }
@@ -62,5 +76,29 @@ impl From<RssError> for Error
     fn from(err: RssError) -> Error
     {
         Error::Rss(err)
+    }
+}
+
+impl From<IoError> for Error
+{
+    fn from(err: IoError) -> Error
+    {
+        Error::Io(err)
+    }
+}
+
+impl From<SerError> for Error
+{
+    fn from(err: SerError) -> Error
+    {
+        Error::Ser(err)
+    }
+}
+
+impl From<DeError> for Error
+{
+    fn from(err: DeError) -> Error
+    {
+        Error::De(err)
     }
 }
