@@ -16,6 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
+#![warn(missing_docs)]
+
 extern crate ron;
 extern crate rss;
 #[macro_use]
