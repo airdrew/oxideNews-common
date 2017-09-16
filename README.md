@@ -1,14 +1,11 @@
 # oxideNews-common
 
-[![Build Status](https://img.shields.io/travis/red-oxide/oxideNews-common.svg?style=flat-square)](https://travis-ci.org/red-oxide/oxideNews-common)
-[![Coverage Status](https://coveralls.io/repos/github/red-oxide/oxideNews-common/badge.svg?style=flat-square)](https://coveralls.io/github/red-oxide/oxideNews-common)
+[![Build Status](https://img.shields.io/travis/red-oxide/oxideNews-common.svg?style=flat-square)](https://travis-ci.org/red-oxide/oxideNews-common)[![Coverage Status](https://img.shields.io/coveralls/red-oxide/oxideNews-common.svg?style=flat-square)](https://coveralls.io/github/red-oxide/oxideNews-common)
 
 `oxideNews-common` is a WIP effort to create a common library for `oxideNews` clients.
 
 WIP clients:
 - [gtk desktop app](https://github.com/red-oxide/oxideNews-gtk)
-- [server aggregator](https://github.com/red-oxide/oxideNews-server)
-
 
 ## Code of conduct
 
