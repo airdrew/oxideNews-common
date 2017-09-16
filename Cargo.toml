@@ -1,28 +1,27 @@
 [package]
-name = "oxideNews-common"
-version = "0.1.0"
 authors = ["Chris Palmer <chris@red-oxide.org>"]
 description = "Library for common functions in oxideNews"
-repository = "https://github.com/red-oxide/oxideNews-common"
+include = [
+    "src/*",
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+]
 license = "GPL-3.0"
+name = "oxideNews-common"
 readme = "README.md"
-include = ["src/*", "Cargo.toml", "LICENSE", "README.md"]
+repository = "https://github.com/red-oxide/oxideNews-common"
+version = "0.1.0"
 
-[dependencies.ron]
-version = "0.1"
+[dependencies]
+derive_builder = "0.5.0"
+ron = "0.1.1"
+serde = "1.0.14"
+serde_derive = "1.0.14"
 
 [dependencies.rss]
-version = "0.7"
 features = ["from_url"]
-
-[dependencies.derive_builder]
-version = "0.5"
-
-[dependencies.serde]
-version = "1.0"
-
-[dependencies.serde_derive]
-version = "1.0"
+version = "1.1.0"
 
 [lib]
 name = "oxide_news_common"
