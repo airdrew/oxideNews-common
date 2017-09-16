@@ -18,8 +18,8 @@
 
 use std::collections::HashMap;
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
-#[builder(setter(into))]
+#[derive(Debug, Default, Clone, Deserialize, Serialize, Builder)]
+#[builder(setter(into), default)]
 pub struct News
 {
     folders: HashMap<String, Folder>,
@@ -33,8 +33,8 @@ impl News
     }
 }
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
-#[builder(setter(into))]
+#[derive(Debug, Default, Clone, Deserialize, Serialize, Builder)]
+#[builder(setter(into), default)]
 pub struct Folder
 {
     feeds: HashMap<String, Feed>,
@@ -48,8 +48,8 @@ impl Folder
     }
 }
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
-#[builder(setter(into))]
+#[derive(Debug, Default, Clone, Deserialize, Serialize, Builder)]
+#[builder(setter(into), default)]
 pub struct Feed
 {
     title: String,
@@ -93,8 +93,8 @@ impl Feed
     }
 }
 
-#[derive(Builder, Clone, Debug, Default, Deserialize, Serialize)]
-#[builder(setter(into))]
+#[derive(Debug, Default, Clone, Deserialize, Serialize, Builder)]
+#[builder(setter(into), default)]
 pub struct Episode
 {
     title: Option<String>,
@@ -142,7 +142,6 @@ impl Episode
     pub fn position(&self) -> Option<i64>
     {
         self.position
-            .clone()
     }
     pub fn set_position<V>(&mut self,
                            position: V)
