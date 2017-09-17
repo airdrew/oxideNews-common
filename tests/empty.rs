@@ -75,11 +75,12 @@ fn test_feed()
 
     assert!(!folders.is_empty());
 
-    let folder = folders.get_mut(folder_name).unwrap();
+    let folder = folders.get_mut(folder_name)
+                        .unwrap();
 
     let feeds = folder.feeds();
     let feed = feeds.get_mut(url)
-                        .unwrap();
+                    .unwrap();
 
     assert!(feed.podcast());
     assert_eq!(feed.title(),
@@ -88,9 +89,11 @@ fn test_feed()
     assert_eq!(feed.description(),
                "Linux after dark"
                    .to_owned());
-    //assert_eq!(feed.image(),
+    // assert_eq!(feed.image(),
     //           Some("https://latenightlinux.com/wp-content/uploads/2016/12/cropped-favicon-32x32.png"
     //                    .to_owned()));
-    assert!(feed.categories().is_empty());
-    assert!(!feed.episodes().is_empty());
+    assert!(feed.categories()
+                .is_empty());
+    assert!(!feed.episodes()
+                 .is_empty());
 }
