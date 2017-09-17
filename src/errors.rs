@@ -16,6 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
+//! All possible errors that can be thrown by this library.
+
 use ron::de::Error as DeError;
 use ron::ser::Error as SerError;
 use rss::Error as RssError;
@@ -27,9 +29,13 @@ use std::io::Error as IoError;
 /// Errors from RSS and the Database
 pub enum Error
 {
+    /// Errors from the rss crate.
     Rss(RssError),
+    /// Errors from the io library.
     Io(IoError),
+    /// Errors from ron serialize.
     Ser(SerError),
+    /// Errors from ron deserialize.
     De(DeError),
 }
 
