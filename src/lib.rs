@@ -16,7 +16,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
 
-#![allow(missing_docs)]
+//! The common library to be used by all ui rss reader.
+
+#![warn(missing_docs)]
 
 extern crate ron;
 extern crate rss;
@@ -39,6 +41,7 @@ use std::io::BufReader;
 use std::io::prelude::*;
 use std::path::Path;
 
+/// Common object containing the dir path to the oxideNews ron file and the News object contained within.
 #[derive(Clone, Debug)]
 pub struct Common
 {
