@@ -1,18 +1,21 @@
 extern crate oxide_news_common;
 
 use oxide_news_common::Common;
+use std::fs;
+use std::path::PathBuf;
 
 #[test]
 fn test_init()
-{
-    assert!(Common::init("/home/phnxrbrn/.oxideNews/temp")
-                .is_ok());
+{let path = PathBuf::from("./tests/data/empty");
+    let common = Common::init(fs::canonicalize(&path).unwrap().to_str().unwrap());
+    assert!(common.is_ok());
 }
 
 #[test]
 fn test_add()
 {
-    let common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let path = PathBuf::from("./tests/data/");
+    let common = Common::init(fs::canonicalize(&path).unwrap().to_str().unwrap())
         .unwrap()
         .add("https://latenightlinux.com/feed/mp3",
              "podcasts",
@@ -30,7 +33,8 @@ fn test_add()
 fn test_remove()
 {
     let url = "https://latenightlinux.com/feed/mp3";
-    let add_common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let path = PathBuf::from("./tests/data/empty");
+    let add_common = Common::init(fs::canonicalize(&path).unwrap().to_str().unwrap())
         .unwrap()
         .add(url,
              "podcasts",
@@ -62,7 +66,8 @@ fn test_feed()
 {
     let url = "https://latenightlinux.com/feed/mp3";
     let folder_name = "podcasts";
-    let add_common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let path = PathBuf::from("./tests/data/empty");
+    let add_common = Common::init(fs::canonicalize(&path).unwrap().to_str().unwrap())
         .unwrap()
         .add(url,
              folder_name,
