@@ -5,14 +5,14 @@ use oxide_news_common::Common;
 #[test]
 fn test_init()
 {
-    assert!(Common::init("/home/phnxrbrn/.oxideNews/temp")
-                .is_ok());
+    let common = Common::init("/tests");
+    assert!(common.is_ok());
 }
 
 #[test]
 fn test_add()
 {
-    let common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let common = Common::init("/tests")
         .unwrap()
         .add("https://latenightlinux.com/feed/mp3",
              "podcasts",
@@ -30,7 +30,7 @@ fn test_add()
 fn test_remove()
 {
     let url = "https://latenightlinux.com/feed/mp3";
-    let add_common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let add_common = Common::init("/tests")
         .unwrap()
         .add(url,
              "podcasts",
@@ -62,7 +62,7 @@ fn test_feed()
 {
     let url = "https://latenightlinux.com/feed/mp3";
     let folder_name = "podcasts";
-    let add_common = Common::init("/home/phnxrbrn/.oxideNews/temp")
+    let add_common = Common::init("/tests")
         .unwrap()
         .add(url,
              folder_name,
