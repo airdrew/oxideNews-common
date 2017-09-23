@@ -1,32 +1,22 @@
 extern crate oxide_news_common;
 
 use oxide_news_common::Common;
-use std::fs;
-use std::path::PathBuf;
 
 #[test]
 fn test_init()
 {
-    let path = PathBuf::from("./tests/data/empty");
-    let common = Common::init(fs::canonicalize(&path)
-                                  .unwrap()
-                                  .to_str()
-                                  .unwrap());
+    let common = Common::init("/tests");
     assert!(common.is_ok());
 }
 
 #[test]
 fn test_add()
 {
-    let path = PathBuf::from("./tests/data/");
-    let common = Common::init(fs::canonicalize(&path)
-                                  .unwrap()
-                                  .to_str()
-                                  .unwrap())
-                 .unwrap()
-                 .add("https://latenightlinux.com/feed/mp3",
-                      "podcasts",
-                      true);
+    let common = Common::init("/tests")
+        .unwrap()
+        .add("https://latenightlinux.com/feed/mp3",
+             "podcasts",
+             true);
 
     assert!(common.is_ok());
 
@@ -40,15 +30,11 @@ fn test_add()
 fn test_remove()
 {
     let url = "https://latenightlinux.com/feed/mp3";
-    let path = PathBuf::from("./tests/data/empty");
-    let add_common = Common::init(fs::canonicalize(&path)
-                                      .unwrap()
-                                      .to_str()
-                                      .unwrap())
-                     .unwrap()
-                     .add(url,
-                          "podcasts",
-                          true);
+    let add_common = Common::init("/tests")
+        .unwrap()
+        .add(url,
+             "podcasts",
+             true);
 
     assert!(add_common.is_ok());
     let add_cmn_uw = add_common.unwrap();
@@ -76,15 +62,11 @@ fn test_feed()
 {
     let url = "https://latenightlinux.com/feed/mp3";
     let folder_name = "podcasts";
-    let path = PathBuf::from("./tests/data/empty");
-    let add_common = Common::init(fs::canonicalize(&path)
-                                      .unwrap()
-                                      .to_str()
-                                      .unwrap())
-                     .unwrap()
-                     .add(url,
-                          folder_name,
-                          true);
+    let add_common = Common::init("/tests")
+        .unwrap()
+        .add(url,
+             folder_name,
+             true);
 
     assert!(add_common.is_ok());
     let mut news = add_common.unwrap()
