@@ -62,7 +62,7 @@ pub struct Feed
     title: String,
     description: String,
     podcast: bool,
-    image: Option<String>,
+    image: String,
     categories: Vec<String>,
     episodes: Vec<Episode>,
 }
@@ -87,7 +87,7 @@ impl Feed
         self.podcast
     }
     /// Get the Rss feeds image link.
-    pub fn image(&self) -> Option<String>
+    pub fn image(&self) -> String
     {
         self.image
             .clone()
@@ -111,64 +111,62 @@ impl Feed
 #[builder(setter(into), default)]
 pub struct Episode
 {
-    title: Option<String>,
-    link: Option<String>,
-    description: Option<String>,
-    author: Option<String>,
-    pub_date: Option<String>,
-    media: Option<String>,
-    position: Option<i64>,
+    title: String,
+    link: String,
+    description: String,
+    author: String,
+    pub_date: String,
+    media: String,
+    position: i64,
     read: bool,
 }
 
 impl Episode
 {
     /// Get the Rss Item title.
-    pub fn title(&self) -> Option<String>
+    pub fn title(&self) -> String
     {
         self.title
             .clone()
     }
     /// Get the Rss Item link.
-    pub fn link(&self) -> Option<String>
+    pub fn link(&self) -> String
     {
         self.link
             .clone()
     }
     /// Get the Rss Item description.
-    pub fn description(&self) -> Option<String>
+    pub fn description(&self) -> String
     {
         self.description
             .clone()
     }
     /// Get the Rss Item author.
-    pub fn author(&self) -> Option<String>
+    pub fn author(&self) -> String
     {
         self.author
             .clone()
     }
     /// Get the Rss Item pub date.
-    pub fn pub_date(&self) -> Option<String>
+    pub fn pub_date(&self) -> String
     {
         self.pub_date
             .clone()
     }
     /// Get the Rss Item enclosure link.
-    pub fn media(&self) -> Option<String>
+    pub fn media(&self) -> String
     {
         self.media
             .clone()
     }
     /// Get the position of the podcast.
-    pub fn position(&self) -> Option<i64>
+    pub fn position(&self) -> i64
     {
         self.position
     }
     /// Set the position of the podcast.
-    pub fn set_position<V>(&mut self,
-                           position: V)
-    where
-        V: Into<Option<i64>>,
+    pub fn set_position(&mut self,
+                        position: i64)
     {
         self.position = position.into();
     }
