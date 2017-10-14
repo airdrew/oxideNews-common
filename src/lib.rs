@@ -89,8 +89,8 @@ impl Common
         let title = feed.title();
         let description = feed.description();
         let image = match feed.image() {
-            None => None,
-            Some(x) => Some(String::from(x.url())),
+            None => String::new(),
+            Some(x) => String::from(x.url()),
         };
 
         let mut categories = Vec::new();
@@ -101,33 +101,33 @@ impl Common
         let mut episodes = Vec::new();
         for item in feed.items() {
             let i_title = match item.title() {
-                None => None,
-                Some(x) => Some(String::from(x)),
+                None => String::new(),
+                Some(x) => String::from(x),
             };
             let i_link = match item.link() {
-                None => None,
-                Some(x) => Some(String::from(x)),
+                None => String::new(),
+                Some(x) => String::from(x),
             };
             let i_description = match item.description() {
-                None => None,
-                Some(x) => Some(String::from(x)),
+                None => String::new(),
+                Some(x) => String::from(x),
             };
             let i_author = match item.author() {
-                None => None,
-                Some(x) => Some(String::from(x)),
+                None => String::new(),
+                Some(x) => String::from(x),
             };
             let i_pub_date = match item.pub_date() {
-                None => None,
-                Some(x) => Some(String::from(x)),
+                None => String::new(),
+                Some(x) => String::from(x),
             };
             let i_media = match item.enclosure() {
-                None => None,
-                Some(x) => Some(String::from(x.url())),
+                None => String::new(),
+                Some(x) => String::from(x.url()),
             };
 
             episodes.push(EpisodeBuilder::default()
                               .read(false)
-                              .position(None)
+                              .position(0)
                               .title(i_title)
                               .link(i_link)
                               .description(i_description)
@@ -216,41 +216,51 @@ impl Common
                     };
 
                     for ep in &mut feed.episodes() {
-                        if ep.title() == title && ep.description() == description {
+                        let e_title = match title.clone() {
+                            None => String::new(),
+                            Some(x) => String::from(x),
+                        };
+
+                        let e_desc = match description.clone() {
+                            None => String::new(),
+                            Some(x) => String::from(x),
+                        };
+
+                        if ep.title() == e_title && ep.description() == e_desc {
                             flag = true;
                         }
                     }
 
                     if !flag {
                         let i_title = match item.title() {
-                            None => None,
-                            Some(x) => Some(String::from(x)),
+                            None => String::new(),
+                            Some(x) => String::from(x),
                         };
                         let i_link = match item.link() {
-                            None => None,
-                            Some(x) => Some(String::from(x)),
+                            None => String::new(),
+                            Some(x) => String::from(x),
                         };
                         let i_description = match item.description() {
-                            None => None,
-                            Some(x) => Some(String::from(x)),
+                            None => String::new(),
+                            Some(x) => String::from(x),
                         };
                         let i_author = match item.author() {
-                            None => None,
-                            Some(x) => Some(String::from(x)),
+                            None => String::new(),
+                            Some(x) => String::from(x),
                         };
                         let i_pub_date = match item.pub_date() {
-                            None => None,
-                            Some(x) => Some(String::from(x)),
+                            None => String::new(),
+                            Some(x) => String::from(x),
                         };
                         let i_media = match item.enclosure() {
-                            None => None,
-                            Some(x) => Some(String::from(x.url())),
+                            None => String::new(),
+                            Some(x) => String::from(x.url()),
                         };
 
                         feed.episodes()
                             .push(EpisodeBuilder::default()
                                       .read(false)
-                                      .position(None)
+                                      .position(0)
                                       .title(i_title)
                                       .link(i_link)
                                       .description(i_description)
