@@ -67,6 +67,7 @@ impl Common
                 from_str(content.as_str())?
             }
             Err(_) => {
+                File::create(path)?;
                 NewsBuilder::default()
                     .folders(HashMap::new())
                     .build()
