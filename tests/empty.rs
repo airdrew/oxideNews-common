@@ -71,7 +71,7 @@ fn test_empty()
                 .close()
                 .expect("Error unwrapping close");
 
-    let file = config_path + "oxideNews.ron";
+    let file = config_path + "/oxideNews.ron";
     fs::remove_file(file.as_str())
         .expect("Error unwrapping remove file");
 }
