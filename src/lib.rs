@@ -54,10 +54,12 @@ impl Common
     /// Initialize the oxideNews ron file based on the path.
     pub fn init(dir: &str) -> Result<Common, Error>
     {
-        if !Path::new(dir).exists()
+        if !Path::new(dir)
+            .exists()
         {
-            DirBuilder::new().recursive(true)
-                             .create(dir)?;
+            DirBuilder::new()
+                .recursive(true)
+                .create(dir)?;
         }
 
         let filename = format!("{}/oxideNews.ron",

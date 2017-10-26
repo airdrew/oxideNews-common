@@ -1,8 +1,8 @@
 extern crate oxide_news_common;
 
 use oxide_news_common::Common;
-use std::fs;
 use std::env;
+use std::fs;
 
 #[test]
 fn test_empty()
@@ -24,9 +24,7 @@ fn test_empty()
              folder_name,
              true);
 
-    assert!(common.is_ok());
-
-    let common_uw = common.unwrap();
+    let common_uw = common.expect("Error unwrapping common");
 
     let mut news = common_uw.clone()
                             .news();
@@ -39,11 +37,11 @@ fn test_empty()
     assert!(!folders.is_empty());
 
     let folder = folders.get_mut(folder_name)
-                        .unwrap();
+                        .expect("Error unwrapping folder");
 
     let feed = folder.feeds()
                      .get_mut(url)
-                     .unwrap();
+                     .expect("Error unwrapping feed");
 
     assert!(feed.podcast());
     assert_eq!(feed.title(),
@@ -60,17 +58,20 @@ fn test_empty()
     let rm_common = common_uw.clone()
                              .remove(url);
 
-    let rm_common_uw = rm_common.unwrap();
+    let rm_common_uw = rm_common.expect("Error unwrapping rm_common");
 
     let mut rm_news = rm_common_uw.clone()
-                               .news();
+                                  .news();
 
     let rm_folders = rm_news.folders();
 
     assert!(rm_folders.is_empty());
 
-    rm_common_uw.clone().close().unwrap();
+    rm_common_uw.clone()
+                .close()
+                .expect("Error unwrapping close");
 
     let file = config_path + "oxideNews.ron";
-    fs::remove_file(file.as_str()).unwrap();
+    fs::remove_file(file.as_str())
+        .expect("Error unwrapping remove file");
 }
