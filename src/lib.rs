@@ -36,7 +36,7 @@ use ron::de::from_str;
 use ron::ser::pretty::to_string;
 use rss::Channel;
 use std::collections::HashMap;
-use std::fs::File;
+use std::fs::{self, DirBuilder, File};
 use std::io::BufReader;
 use std::io::prelude::*;
 use std::path::Path;
@@ -54,6 +54,14 @@ impl Common
     /// Initialize the oxideNews ron file based on the path.
     pub fn init(dir: &str) -> Result<Common, Error>
     {
+        if !Path::new(dir)
+            .exists()
+        {
+            DirBuilder::new()
+                .recursive(true)
+                .create(dir)?;
+        }
+
         let filename = format!("{}/oxideNews.ron",
                                dir);
 
@@ -67,6 +75,7 @@ impl Common
                 from_str(content.as_str())?
             }
             Err(_) => {
+                File::create(path)?;
                 NewsBuilder::default()
                     .folders(HashMap::new())
                     .build()

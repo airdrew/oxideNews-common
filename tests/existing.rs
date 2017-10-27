@@ -1,72 +1,51 @@
 extern crate oxide_news_common;
 
 use oxide_news_common::Common;
+use std::env;
 use std::fs;
-use std::path::PathBuf;
 
 #[test]
-fn test_init()
+fn test_existing()
 {
-    let path = PathBuf::from("./tests/data");
-    let common = Common::init(fs::canonicalize(&path)
-                                  .unwrap()
-                                  .to_str()
-                                  .unwrap());
-    assert!(common.is_ok());
-}
+    let url = "https://latenightlinux.com/feed/mp3";
+    let folder_name = "podcasts";
 
-#[test]
-fn test_add()
-{
-    let path = PathBuf::from("./tests/data/");
-    let common = Common::init(fs::canonicalize(&path)
-                                  .unwrap()
-                                  .to_str()
-                                  .unwrap())
-                 .unwrap()
-                 .add("http://feeds.feedburner.com/linuxunplugged",
-                      "podcasts",
-                      true);
+    let home_path = env::home_dir()
+        .expect("Error: cannot get the home directory.")
+        .to_str()
+        .expect("Error: cannon unwrap home path.")
+        .to_string();
 
-    assert!(common.is_ok());
+    let config_path = home_path + "/.config/oxideNews/test";
 
-    let mut news = common.unwrap()
-                         .news();
-    assert!(!news.folders()
-                 .is_empty());
-}
+    let common = Common::init(config_path.as_str())
+        .unwrap()
+        .add(url,
+             folder_name,
+             true);
+    common.unwrap()
+          .close()
+          .expect("Error unwrapping close");
 
-#[test]
-fn test_remove()
-{
-    let url = "http://feeds.feedburner.com/linuxunplugged";
-    let path = PathBuf::from("./tests/data");
-    let add_common = Common::init(fs::canonicalize(&path)
-                                      .unwrap()
-                                      .to_str()
-                                      .unwrap())
-                     .unwrap()
-                     .add(url,
-                          "podcasts",
-                          true);
+    let new_common = Common::init(config_path.as_str())
+        .unwrap()
+        .add("http://feeds.feedburner.com/linuxunplugged",
+             "podcasts",
+             true);
+    assert!(new_common.is_ok());
 
-    assert!(add_common.is_ok());
-    let add_cmn_uw = add_common.unwrap();
+    let new_common_uw = new_common.unwrap();
 
-    assert!(!add_cmn_uw.clone()
-                       .news()
-                       .folders()
-                       .is_empty());
+    let rm_common = new_common_uw.clone()
+                                 .remove(url);
 
-    let rm_common = add_cmn_uw.clone()
-                              .remove(url);
+    let rm_common_uw = rm_common.unwrap();
 
-    let rm_cmn_uw = rm_common.unwrap();
+    rm_common_uw.clone()
+                .close()
+                .expect("Error unwrapping close");
 
-    let mut rm_news = rm_cmn_uw.clone()
-                               .news();
-
-    let folders = rm_news.folders();
-
-    assert!(!folders.is_empty());
+    let file = config_path + "/oxideNews.ron";
+    fs::remove_file(file.as_str())
+        .expect("Error unwrapping remove file");
 }

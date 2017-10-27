@@ -1,86 +1,47 @@
 extern crate oxide_news_common;
 
 use oxide_news_common::Common;
+use std::env;
+use std::fs;
 
 #[test]
-fn test_init()
-{
-    let common = Common::init("/tests");
-    assert!(common.is_ok());
-}
-
-#[test]
-fn test_add()
-{
-    let common = Common::init("/tests")
-        .unwrap()
-        .add("https://latenightlinux.com/feed/mp3",
-             "podcasts",
-             true);
-
-    assert!(common.is_ok());
-
-    let mut news = common.unwrap()
-                         .news();
-    assert!(!news.folders()
-                 .is_empty());
-}
-
-#[test]
-fn test_remove()
-{
-    let url = "https://latenightlinux.com/feed/mp3";
-    let add_common = Common::init("/tests")
-        .unwrap()
-        .add(url,
-             "podcasts",
-             true);
-
-    assert!(add_common.is_ok());
-    let add_cmn_uw = add_common.unwrap();
-
-    assert!(!add_cmn_uw.clone()
-                       .news()
-                       .folders()
-                       .is_empty());
-
-    let rm_common = add_cmn_uw.clone()
-                              .remove(url);
-
-    let rm_cmn_uw = rm_common.unwrap();
-
-    let mut rm_news = rm_cmn_uw.clone()
-                               .news();
-
-    let folders = rm_news.folders();
-
-    assert!(folders.is_empty());
-}
-
-#[test]
-fn test_feed()
+fn test_empty()
 {
     let url = "https://latenightlinux.com/feed/mp3";
     let folder_name = "podcasts";
-    let add_common = Common::init("/tests")
+
+    let home_path = env::home_dir()
+        .expect("Error: cannot get the home directory.")
+        .to_str()
+        .expect("Error: cannon unwrap home path.")
+        .to_string();
+
+    let config_path = home_path + "/.config/oxideNews/test";
+
+    let common = Common::init(config_path.as_str())
         .unwrap()
         .add(url,
              folder_name,
              true);
 
-    assert!(add_common.is_ok());
-    let mut news = add_common.unwrap()
-                             .news();
+    let common_uw = common.expect("Error unwrapping common");
+
+    let mut news = common_uw.clone()
+                            .news();
+
+    assert!(!news.folders()
+                 .is_empty());
+
     let folders = news.folders();
 
     assert!(!folders.is_empty());
 
     let folder = folders.get_mut(folder_name)
-                        .unwrap();
+                        .expect("Error unwrapping folder");
 
-    let feeds = folder.feeds();
-    let feed = feeds.get_mut(url)
-                    .unwrap();
+    let feed = folder.feeds()
+                     .get_mut(url)
+                     .expect("Error unwrapping feed");
 
     assert!(feed.podcast());
     assert_eq!(feed.title(),
@@ -89,11 +50,28 @@ fn test_feed()
     assert_eq!(feed.description(),
                "Linux after dark"
                    .to_owned());
-    // assert_eq!(feed.image(),
-    //           Some("https://latenightlinux.com/wp-content/uploads/2016/12/cropped-favicon-32x32.png"
-    //                    .to_owned()));
     assert!(feed.categories()
                 .is_empty());
     assert!(!feed.episodes()
                  .is_empty());
+
+    let rm_common = common_uw.clone()
+                             .remove(url);
+
+    let rm_common_uw = rm_common.expect("Error unwrapping rm_common");
+
+    let mut rm_news = rm_common_uw.clone()
+                                  .news();
+
+    let rm_folders = rm_news.folders();
+
+    assert!(rm_folders.is_empty());
+
+    rm_common_uw.clone()
+                .close()
+                .expect("Error unwrapping close");
+
+    let file = config_path + "/oxideNews.ron";
+    fs::remove_file(file.as_str())
+        .expect("Error unwrapping remove file");
 }
